@@ -46,3 +46,51 @@ public:
         return fatoi(s,i,sign,0);
     }
 };
+
+
+
+//method2
+class Solution {
+public:
+
+    int solve(string s, int n, int i, long long num, int sign)
+    {
+        if(i >= n || !isdigit(s[i]))
+            return num * sign;
+
+        num = num * 10 + (s[i] - '0');
+
+        if(sign == -1 && -num < INT_MIN)
+            return INT_MIN;
+
+        if(sign == 1 && num > INT_MAX)
+            return INT_MAX;
+
+        return solve(s, n, i + 1, num, sign);
+    }
+
+    int myAtoi(string s) {
+
+        int i = 0;
+        int n = s.size();
+
+        // remove leading spaces
+        while(i < n && s[i] == ' ')
+            i++;
+
+        if(i == n)
+            return 0;
+
+        int sign = 1;
+
+        if(s[i] == '+' || s[i] == '-')
+        {
+            if(s[i] == '-')
+                sign = -1;
+
+            i++;
+        }
+
+        return solve(s, n, i, 0LL, sign);
+    }
+};
